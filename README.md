@@ -19,8 +19,8 @@
 
 ```bash
 git clone https://github.com/mriefky11/projectPembukuan.git
-cd projectPembukuan
 ```
+cd projectPembukuan
 
 2. **Install PHP dependencies**
 
@@ -40,12 +40,12 @@ php artisan key:generate
 
 6. **Set konfigurasi database di .env**
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE= {{nama database}}
-DB_USERNAME=root
-DB_PASSWORD=
+-DB_CONNECTION=mysql
+-DB_HOST=127.0.0.1
+-DB_PORT=3306
+-DB_DATABASE= {{nama database}}
+-DB_USERNAME=root
+-DB_PASSWORD=
 
 7. **Jalankan migrasi dan seeder**
 
