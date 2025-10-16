@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -14,39 +15,20 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            [
-                'name' => 'Bendahara',
-                'email' => 'bendahara@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'bendahara',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Kepala Sekolah',
-                'email' => 'kepala@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'kepala_sekolah',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Yayasan',
-                'email' => 'yayasan@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'yayasan',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Operator',
-                'email' => 'operator@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'operator',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        $users = [
+            ['name' => 'Operator Sistem', 'email' => 'operator@example.com', 'role' => 'operator'],
+            ['name' => 'Bendahara Sekolah', 'email' => 'bendahara@example.com', 'role' => 'bendahara'],
+            ['name' => 'Kepala Sekolah', 'email' => 'kepala@example.com', 'role' => 'kepala_sekolah'],
+            ['name' => 'Yayasan', 'email' => 'yayasan@example.com', 'role' => 'yayasan'],
+        ];
+
+        foreach ($users as $u) {
+            User::create([
+                'name' => $u['name'],
+                'email' => $u['email'],
+                'role' => $u['role'],
+                'password' => Hash::make('password'),
+            ]);
+        }
     }
 }

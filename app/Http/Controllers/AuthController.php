@@ -3,45 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
-use App\Services\AuthService;
+use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
-{
-     protected $authService;
-
-    public function __construct(AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
-
-    public function showLoginForm()
-    {
+class AuthController extends Controller {
+    public function showLoginForm() {
         return view('auth.login');
     }
 
-    public function login(LoginRequest $request)
-    {
-        $user = $this->authService->login($request->validated());
+    public function login(Request $request) {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-        if (!$user) {
-            return back()->withErrors(['email' => 'Email atau Password salah']);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
         }
 
-        return match($user->role) {
-            'bendahara' => redirect()->route('dashboard.bendahara'),
-            'kepala_sekolah' => redirect()->route('dashboard.kepala'),
-            'yayasan' => redirect()->route('dashboard.yayasan'),
-            'operator' => redirect()->route('dashboard.operator'),
-            default => redirect()->route('login'),
-        };
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->onlyInput('email');
     }
 
-    public function logout(Request $request)
-    {
-        $this->authService->logout();
+    public function logout(Request $request) {
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect('/login');
     }
 }
