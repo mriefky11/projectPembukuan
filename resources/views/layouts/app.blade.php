@@ -35,7 +35,7 @@
             </div>
 
             <!-- Halaman konten -->
-            <main class="p-6">
+            <main class="bg-base-100 m-10 p-10 rounded-lg">
                 @yield('content')
             </main>
         </div>
