@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Activity extends Model
+class CategoryCost extends Model
 {
-    public $incrementing = false;
     protected $keyType = 'string';
+    public $incrementing = false;
+    
+    protected $table = 'kategori_biaya';
 
-    protected $table = 'kegiatan';
-
-    protected $fillable = [
-        'name',
-        'deskripsi',
-        'tanggal_mulai',
-        'tanggal_selesai'
+    protected $fillable =[
+        'nama_kategori',
+        'jenis_biaya',
     ];
 
     protected static function boot()

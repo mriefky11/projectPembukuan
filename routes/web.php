@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryCostController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
 
@@ -38,5 +39,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/activity/{id}/edit', [ActivityController::class, 'edit'])->name('activity.edit');
         Route::put('/dashboard/activity/{id}', [ActivityController::class, 'update'])->name('activity.update');
         Route::delete('/dashboard/activity/{id}', [ActivityController::class, 'destroy'])->name('activity.destroy');
-    }); 
+
+        Route::get('/dashboard/category', [CategoryCostController::class,'index'])->name('category.index');
+        Route::post('/dashboard/category', [CategoryCostController::class,'store'])->name('category.store');
+        Route::delete('/dashboard/category/{id}', [CategoryCostController::class,'destroy'])->name('category.destroy');
+    });
 });
