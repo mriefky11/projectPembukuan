@@ -30,8 +30,9 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($users as $user)
+                @forelse ($users as $index => $user)
                     <tr>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ ucwords(str_replace('_', ' ', $user->role)) }}</td>

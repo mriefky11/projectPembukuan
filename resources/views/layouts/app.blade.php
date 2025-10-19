@@ -53,6 +53,7 @@
                 @endif
 
                 @if (auth()->user()->role === 'bendahara')
+                    <li><a href="/dashboard/activity">Data Kegiatan</a></li>
                     <li><a href="#">Data Pemasukan</a></li>
                     <li><a href="#">Data Pengeluaran</a></li>
                     <li><a href="#">Laporan Keuangan</a></li>

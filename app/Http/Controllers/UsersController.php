@@ -17,7 +17,7 @@ class UsersController extends Controller
 
         $users = User::when($search,function($query, $search){
             $query->where('name', 'like', "%{$search}")
-                ->orWhere('email','like', "%{$search}")
+                ->orWhere('email','like', "%{$search}%")
                 ->orWhere('role','like', "%{$search}");
         })
         ->orderBy('name','asc')
