@@ -13,12 +13,17 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $roles)
     {
-        if (Auth::check() && Auth::user()->role === $role) {
-            return $next($request);
+        if (!Auth::check()) {
+            abort(403, 'Akses ditolak.');
         }
 
-        abort(403, 'Akses ditolak.');
+        $rolesArray = explode('|', $roles);
+        if (!in_array(Auth::user()->role, $rolesArray)) {
+            abort(403, 'Akses ditolak.');
+        }
+
+        return $next($request);
     }
 }

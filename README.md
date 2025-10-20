@@ -20,6 +20,7 @@
 ```bash
 git clone https://github.com/mriefky11/projectPembukuan.git
 ```
+
 cd projectPembukuan
 
 2. **Install PHP dependencies**
@@ -42,8 +43,7 @@ php artisan key:generate
 
 7. **Jalankan migrasi dan seeder**
 
-php artisan migrate
-php artisan db:seed --class=UserSeeder
+php artisan migrate --seed
 
 ## 💻 Jalankan Project
 

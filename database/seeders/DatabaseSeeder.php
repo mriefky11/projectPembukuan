@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KegiatanSeeder::class,
             PemasukanSeeder::class,
-            KategoriBiayaSeeder::class
+            KategoriBiayaSeeder::class,
+            PengeluaranSeeder::class
         ]);
     }
 }

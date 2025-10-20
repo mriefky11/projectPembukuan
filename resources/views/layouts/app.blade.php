@@ -57,15 +57,11 @@
                     <li><a href="/dashboard/category">Data Kategori</a></li>
                     <li><a href="/dashboard/income">Data Pemasukan</a></li>
                     <li><a href="/dashboard/spending">Data Pengeluaran</a></li>
-                    <li><a href="#">Laporan Keuangan</a></li>
+                    <li><a href="/dashboard/report">Laporan Keuangan</a></li>
                 @endif
 
-                @if (auth()->user()->role === 'kepala_sekolah')
-                    <li><a href="#">Laporan Bulanan</a></li>
-                @endif
-
-                @if (auth()->user()->role === 'yayasan')
-                    <li><a href="#">Arsip Laporan Tahunan</a></li>
+                @if (auth()->user()->role === 'kepala_sekolah' || 'yayasan')
+                    <li><a href="/dashboard/report">Laporan Keuangan</a></li>
                 @endif
             </ul>
         </div>

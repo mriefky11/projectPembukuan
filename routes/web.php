@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryCostController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\SpendingController;
 
 Route::get('/', function () {
@@ -21,8 +22,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    Route::middleware(['auth', 'role:operator'])->group(function () {
+   
+    Route::middleware('role:operator')->group(function () {
         Route::get('/dashboard/users', [UsersController::class, 'index'])->name('users.index');
         Route::get('/dashboard/users/{id}', [UsersController::class, 'show']);
         Route::get('/dashboard/users/create', [UsersController::class, 'create'])->name('users.create');
@@ -32,7 +33,13 @@ Route::middleware('auth')->group(function () {
         Route::delete('/dashboard/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
     });
 
-    Route::middleware(['auth', 'role:bendahara'])->group(function () {
+    Route::middleware('role:bendahara|kepala_sekolah|yayasan')->group(function () {
+        // report routes
+        Route::get('/dashboard/report', [LaporanController::class, 'index'])->name('laporan.index');
+        Route::get('/dashboard/report/download/{format}', [LaporanController::class, 'download'])->name('laporan.download');
+    });
+
+    Route::middleware('role:bendahara')->group(function () {
         // Activity Routes
         Route::get('/dashboard/activity', [ActivityController::class,'index'])->name('activity.index');
         Route::get('/dashboard/activity/create', [ActivityController::class, 'create'])->name('activity.create');
@@ -64,6 +71,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/spending/{spending}/edit', [SpendingController::class, 'edit'])->name('spending.edit');
         Route::put('/dashboard/spending/{spending}', [SpendingController::class, 'update'])->name('spending.update');
         Route::delete('/dashboard/spending/{id}', [SpendingController::class, 'destroy'])->name('spending.destroy');
+        
+        // report routes
+        Route::post('/dashboard/report/generate', [LaporanController::class, 'generate'])->name('laporan.generate');
+        Route::delete('/dashboard/report/{laporan}', [LaporanController::class, 'destroy'])->name('laporan.destroy');
     });
 
+    
+
+    
 });
