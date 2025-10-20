@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryCostController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\SpendingController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,12 +49,21 @@ Route::middleware('auth')->group(function () {
 
         // Income Routes
         Route::get('/dashboard/income', [IncomeController::class, 'index'])->name('income.index');
-        Route::get('/dashboard/income/{income}', [IncomeController::class, 'show'])->name('income.show');
         Route::get('/dashboard/income/create', [IncomeController::class, 'create'])->name('income.create');
         Route::post('/dashboard/income', [IncomeController::class, 'store'])->name('income.store');
+        Route::get('/dashboard/income/{income}', [IncomeController::class, 'show'])->name('income.show');
         Route::get('/dashboard/income/{income}/edit', [IncomeController::class, 'edit'])->name('income.edit');
         Route::put('/dashboard/income/{income}', [IncomeController::class, 'update'])->name('income.update');
         Route::delete('/dashboard/income/{id}', [IncomeController::class, 'destroy'])->name('income.destroy');
+
+        // spending Routes
+        Route::get('/dashboard/spending', [SpendingController::class, 'index'])->name('spending.index');
+        Route::get('/dashboard/spending/create', [SpendingController::class, 'create'])->name('spending.create');
+        Route::post('/dashboard/spending', [SpendingController::class, 'store'])->name('spending.store');
+        Route::get('/dashboard/spending/{spending}', [SpendingController::class, 'show'])->name('spending.show');
+        Route::get('/dashboard/spending/{spending}/edit', [SpendingController::class, 'edit'])->name('spending.edit');
+        Route::put('/dashboard/spending/{spending}', [SpendingController::class, 'update'])->name('spending.update');
+        Route::delete('/dashboard/spending/{id}', [SpendingController::class, 'destroy'])->name('spending.destroy');
     });
 
 });

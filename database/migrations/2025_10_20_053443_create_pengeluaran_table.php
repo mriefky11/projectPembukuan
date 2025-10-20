@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemasukan', function (Blueprint $table) {
+        Schema::create('pengeluaran', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('kegiatan_id');
             $table->foreign('kegiatan_id')->references('id')->on('kegiatan')->onDelete('cascade');
+            $table->uuid('created_by');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->uuid('kategori_id');
+            $table->foreign('kategori_id')->references('id')->on('kategori_biaya')->onDelete('cascade');
             $table->date('tanggal');
             $table->decimal('jumlah', 15, 2);
             $table->text('keterangan')->nullable();
-            $table->uuid('created_by');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemasukan');
+        Schema::dropIfExists('pengeluaran');
     }
 };

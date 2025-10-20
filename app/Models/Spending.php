@@ -1,22 +1,22 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
-class Income extends Model
+class Spending extends Model
 {
     use HasFactory;
-
-    protected $table = 'pemasukan';
+    
+    protected $table = 'pengeluaran';
     protected $keyType = 'string';
     public $incrementing = false;
-
+    
     protected $fillable = [
         'id',
         'kegiatan_id',
+        'kategori_id',
         'tanggal',
         'jumlah',
         'keterangan',
@@ -35,9 +35,15 @@ class Income extends Model
         'tanggal' => 'date',
     ];
 
+
     public function activity()
     {
         return $this->belongsTo(Activity::class, 'kegiatan_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(CategoryCost::class, 'kategori_id', 'id');
     }
 
     public function user()

@@ -34,4 +34,9 @@ class Activity extends Model
     {
         return $this->hasMany(Income::class, 'kegiatan_id');
     }
+
+    public function pengeluaran()
+    {
+        return $this->hasMany(Spending::class, 'kegiatan_id');
+    }
 }

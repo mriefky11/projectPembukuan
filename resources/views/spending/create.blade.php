@@ -2,19 +2,9 @@
 
 @section('content')
     <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
-        <h2 class="text-lg font-bold mb-4">Tambah Pemasukan</h2>
+        <h2 class="text-lg font-bold mb-4">Tambah Pengeluaran</h2>
 
-        @if ($errors->any())
-            <div class="alert alert-error mb-4">
-                <ul class="list-disc list-inside text-sm">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('income.store') }}" method="POST">
+        <form action="{{ route('spending.store') }}" method="POST">
             @csrf
 
             <div class="mb-3">
@@ -29,25 +19,43 @@
                     @endforeach
                 </select>
                 @error('kegiatan_id')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="block font-semibold mb-1">Kategori Biaya</label>
+                <select name="kategori_id"
+                    class="select select-bordered w-full @error('kategori_id') select-error @enderror" required>
+                    <option value="">-- Pilih Kategori --</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('kategori_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->nama_kategori }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('kategori_id')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="mb-3">
                 <label class="block font-semibold mb-1">Tanggal</label>
-                <input type="date" name="tanggal" value="{{ old('tanggal') }}"
-                    class="input input-bordered w-full @error('tanggal') input-error @enderror" required>
+                <input type="date" name="tanggal"
+                    class="input input-bordered w-full @error('tanggal') input-error @enderror" value="{{ old('tanggal') }}"
+                    required>
                 @error('tanggal')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="mb-3">
                 <label class="block font-semibold mb-1">Jumlah (Rp)</label>
-                <input type="number" name="jumlah" value="{{ old('jumlah') }}"
-                    class="input input-bordered w-full @error('jumlah') input-error @enderror" required>
+                <input type="number" name="jumlah"
+                    class="input input-bordered w-full @error('jumlah') input-error @enderror" value="{{ old('jumlah') }}"
+                    required>
                 @error('jumlah')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
@@ -56,12 +64,12 @@
                 <textarea name="keterangan" class="textarea textarea-bordered w-full @error('keterangan') textarea-error @enderror"
                     rows="2">{{ old('keterangan') }}</textarea>
                 @error('keterangan')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="flex justify-end gap-2">
-                <a href="{{ route('income.index') }}" class="btn btn-outline">Batal</a>
+                <a href="{{ route('spending.index') }}" class="btn btn-outline">Batal</a>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
         </form>

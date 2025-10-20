@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
 class CategoryCost extends Model
 {
+    use HasFactory;
+
     protected $keyType = 'string';
     public $incrementing = false;
-    
     protected $table = 'kategori_biaya';
 
     protected $fillable =[
@@ -26,5 +28,10 @@ class CategoryCost extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public function spendings()
+    {
+        return $this->hasMany(Spending::class, 'kategori_id', 'id');
     }
 }
