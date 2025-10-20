@@ -5,12 +5,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\CategoryCost;
 
 class KategoriBiayaSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('kategori_biaya')->insert([
+        $data = [
             [
                 'id' => Str::uuid(),
                 'nama_kategori' => 'SPP Bulanan',
@@ -117,6 +118,16 @@ class KategoriBiayaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-        ]);
+        ];
+
+        foreach ($data as $dt) {
+            CategoryCost::create([
+                'id' => $dt['id'],
+                'nama_kategori' => $dt['nama_kategori'],
+                'jenis_biaya' => $dt['jenis_biaya'],
+                'created_at' => $dt['created_at'],
+                'updated_at' => $dt['updated_at'],
+            ]);
+        }
     }
 }

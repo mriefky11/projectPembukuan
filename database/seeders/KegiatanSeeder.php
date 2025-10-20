@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Activity;
 
 class KegiatanSeeder extends Seeder
 {
@@ -90,6 +91,14 @@ class KegiatanSeeder extends Seeder
             ],
         ];
 
-        DB::table('kegiatan')->insert($data);
+        foreach ($data as $dt) {
+            Activity::create([
+                'id' => $dt['id'],
+                'name' => $dt['name'],
+                'deskripsi' => $dt['deskripsi'],
+                'tanggal_mulai' => $dt['tanggal_mulai'],
+                'tanggal_selesai' => $dt['tanggal_selesai'],
+            ]);
+        }
     }
 }

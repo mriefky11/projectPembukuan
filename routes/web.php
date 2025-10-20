@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryCostController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
-
+use App\Http\Controllers\IncomeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,7 +31,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/dashboard/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
     });
 
-    route::middleware(['auth', 'role:bendahara'])->group(function(){
+    Route::middleware(['auth', 'role:bendahara'])->group(function () {
+        // Activity Routes
         Route::get('/dashboard/activity', [ActivityController::class,'index'])->name('activity.index');
         Route::get('/dashboard/activity/create', [ActivityController::class, 'create'])->name('activity.create');
         Route::get('/dashboard/activity/{id}', [ActivityController::class, 'show']);
@@ -40,8 +41,19 @@ Route::middleware('auth')->group(function () {
         Route::put('/dashboard/activity/{id}', [ActivityController::class, 'update'])->name('activity.update');
         Route::delete('/dashboard/activity/{id}', [ActivityController::class, 'destroy'])->name('activity.destroy');
 
+        // Category Routes
         Route::get('/dashboard/category', [CategoryCostController::class,'index'])->name('category.index');
         Route::post('/dashboard/category', [CategoryCostController::class,'store'])->name('category.store');
         Route::delete('/dashboard/category/{id}', [CategoryCostController::class,'destroy'])->name('category.destroy');
+
+        // Income Routes
+        Route::get('/dashboard/income', [IncomeController::class, 'index'])->name('income.index');
+        Route::get('/dashboard/income/{income}', [IncomeController::class, 'show'])->name('income.show');
+        Route::get('/dashboard/income/create', [IncomeController::class, 'create'])->name('income.create');
+        Route::post('/dashboard/income', [IncomeController::class, 'store'])->name('income.store');
+        Route::get('/dashboard/income/{income}/edit', [IncomeController::class, 'edit'])->name('income.edit');
+        Route::put('/dashboard/income/{income}', [IncomeController::class, 'update'])->name('income.update');
+        Route::delete('/dashboard/income/{id}', [IncomeController::class, 'destroy'])->name('income.destroy');
     });
+
 });

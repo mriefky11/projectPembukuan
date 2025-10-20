@@ -29,4 +29,9 @@ class Activity extends Model
             }
         });
     }
+
+    public function pemasukan()
+    {
+        return $this->hasMany(Income::class, 'kegiatan_id');
+    }
 }
