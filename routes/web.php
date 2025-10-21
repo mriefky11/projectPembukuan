@@ -3,17 +3,13 @@
 use App\Http\Controllers\ActivityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CategoryCostController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\SpendingController;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 
 Route::get('/', fn() => redirect('/login'));
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -31,6 +27,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
         Route::put('/dashboard/users/{id}', [UsersController::class, 'update'])->name('users.update');
         Route::delete('/dashboard/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+        Route::get('/dashboard/backup', [BackupController::class, 'index'])->name('backup.index');
+        Route::post('/dashboard/backup/run', [BackupController::class, 'run'])->name('backup.run');
     });
 
     Route::middleware('role:bendahara|kepala_sekolah|yayasan')->group(function () {

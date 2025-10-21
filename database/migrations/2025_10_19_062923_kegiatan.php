@@ -1,31 +1,63 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Http\Controllers;
 
-return new class extends Migration
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
+class DashboardController extends Controller
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function index()
     {
-        Schema::create('kegiatan', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->text('deskripsi')->nullable();
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
-            $table->timestamps();
-        });
-    }
+        $user = Auth::user();
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('kegiatan');
+        // === Data backup terakhir ===
+        $files = Storage::files('backups');
+        $lastBackup = !empty($files)
+            ? date('d-m-Y H:i:s', Storage::lastModified(end($files)))
+            : null;
+
+        if ($user->role === 'admin') {
+            // === Data untuk admin ===
+            $totalPemasukan = DB::table('pemasukan')->sum('jumlah');
+            $totalPengeluaran = DB::table('pengeluaran')->sum('jumlah');
+
+            $totalBiayaLangsung = DB::table('pengeluaran as p')
+                ->join('kategori_biaya as k', 'p.kategori_id', '=', 'k.id')
+                ->where('k.jenis_biaya', 'biaya_langsung')
+                ->sum('p.jumlah');
+
+            $totalBiayaTidakLangsung = DB::table('pengeluaran as p')
+                ->join('kategori_biaya as k', 'p.kategori_id', '=', 'k.id')
+                ->where('k.jenis_biaya', 'biaya_tidak_langsung')
+                ->sum('p.jumlah');
+
+            $totalKegiatan = DB::table('kegiatan')->count();
+            $totalSaldo = $totalPemasukan - $totalPengeluaran;
+
+            return view('dashboard.index', compact(
+                'user',
+                'totalPemasukan',
+                'totalPengeluaran',
+                'totalBiayaLangsung',
+                'totalBiayaTidakLangsung',
+                'totalKegiatan',
+                'totalSaldo',
+                'lastBackup'
+            ));
+        } else {
+            // === Data untuk operator ===
+            $jumlahPengguna = DB::table('users')->count();
+            $tanggalHariIni = now()->format('d-m-Y');
+
+            return view('dashboard.operator', compact(
+                'user',
+                'jumlahPengguna',
+                'tanggalHariIni',
+                'lastBackup'
+            ));
+        }
     }
-};
+}

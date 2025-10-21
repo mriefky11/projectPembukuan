@@ -49,7 +49,7 @@
                 {{-- Menu Berdasarkan Role --}}
                 @if (auth()->user()->role === 'operator')
                     <li><a href="/dashboard/users">Kelola Pengguna</a></li>
-                    <li><a href="#">Backup Data</a></li>
+                    <li><a href="/dashboard/backup">Backup Data</a></li>
                 @endif
 
                 @if (auth()->user()->role === 'bendahara')
@@ -60,7 +60,11 @@
                     <li><a href="/dashboard/report">Laporan Keuangan</a></li>
                 @endif
 
-                @if (auth()->user()->role === 'kepala_sekolah' || 'yayasan')
+                @if (auth()->user()->role === 'kepala_sekolah')
+                    <li><a href="/dashboard/report">Laporan Keuangan</a></li>
+                @endif
+
+                @if (auth()->user()->role === 'yayasan')
                     <li><a href="/dashboard/report">Laporan Keuangan</a></li>
                 @endif
             </ul>
